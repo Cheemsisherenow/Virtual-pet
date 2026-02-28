@@ -39,14 +39,14 @@ const Home = () => {
 
     // Storage for the pet's moods and walking animations
   const PET_IMAGES = {
-      happy: "/chainchillahappy.png",
-      unhappy: "/chainchillaunhappy.png",
-      angry: "/chainchillaangry.png",
+      happy: "/Virtual-pet/chainchillahappy.png",
+      unhappy: "/Virtual-pet/chainchillaunhappy.png",
+      angry: "/Virtual-pet/chainchillaangry.png",
     };
     const PET_WALKING = {
-      happy: "/chainchillawalkinghappy.gif",
-      unhappy: "/chainchillawalkingunhappy.gif",
-      angry: "/chainchillawalkingangry.gif",
+      happy: "/Virtual-pet/chainchillawalkinghappy.gif",
+      unhappy: "/Virtual-pet/chainchillawalkingunhappy.gif",
+      angry: "/Virtual-pet/chainchillawalkingangry.gif",
     };
     
     // Function to handle the user clicking the pet
