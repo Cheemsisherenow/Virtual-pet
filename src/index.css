@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/fonts/Minecraft.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} 
+body {
+  overflow: hidden;
+  font-family: 'Minecraft', sans-serif;
+}
+
+@layer components {
+
+  header {
+    @apply  w-screen fixed top-0 left-0 bg-neutral-200 z-50 flex items-center justify-center  min-h-[7vh];
+    nav {
+      @apply container mx-auto flex items-center;
+      ul{
+        @apply flex justify-between w-full ;
+      }
+    }
+  }
+  .pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+  #home{
+    @apply bg-[url('/home.png')];
+  }
+}
