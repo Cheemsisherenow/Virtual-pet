@@ -9,14 +9,13 @@ const Home = () => {
   // Setting the Zustand variables, hooks, and normal variables
     const {money, setMoney, hunger, mood,clean} = inGameVariables();
     const [showTutorial, setShowTutorial] = useState(true);
-    const { isActive, next, skip, steps, currentStep, start } = Progression();
+    const { isActive, next, skip, steps, currentStep, add } = Progression();
     useEffect(() => {
       
-      start([
-        { target: petRef },
+      add([
+        { target: petRef, position: 0 },
       ])
     }, [])
-    const step = steps[currentStep]
     const setPlayAnimation = petAnimation((state) => state.setPlayAnimation);
     const petRef = useRef(null);
     const {setTotalMoneyEarned} = stats();

@@ -15,19 +15,15 @@ import Progression from './pages/Progression.jsx'
 export default function App() {
   const [currentBg, setCurrentBg] = useState('#c7bfb2');
   const storageRef = useRef(null);
-  const { isActive, next, skip, steps, currentStep, add } = Progression();
+  const navRef = useRef(null);
+  const { isActive, next, skip, steps, currentStep, add, start } = Progression();
   useEffect(() => {
       
       add([
-        { target: storageRef },
+        { target: storageRef, position: 1 },
       ])
+      start();
     }, [])
-    useEffect(() => {
-      console.log("ref:", storageRef.current)
-      console.log("rect:", storageRef.current?.getBoundingClientRect())
-      console.log("step:", steps[currentStep])
-      console.log("isActive:", isActive)
-    }, [isActive, steps])
   const step = steps[currentStep]
   const [screen, setScreen] = useState(SCREENS.HOME);
   const [loading, setLoading] = useState(false);
