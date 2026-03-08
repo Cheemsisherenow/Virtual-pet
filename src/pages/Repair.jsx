@@ -38,7 +38,7 @@ const Button = ({item,cost}) =>{
     }, 2000);
   };
   return(
-    <button className="absolute z-15 overflow-hidden bottom-[10%] bg-[url('button.png')] bg-[length:100%_100%] h-[10%] w-[35%] bg-no-repeat bg-center group" onClick={handleBuy}>
+    <button className="absolute z-15 overflow-hidden bottom-[10%] bg-[url('/Virtual-pet/button.png')] bg-[length:100%_100%] h-[10%] w-[35%] bg-no-repeat bg-center group" onClick={handleBuy}>
       <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">
         {bought ? 'Bought!' : `${cost} C`}
       </span>

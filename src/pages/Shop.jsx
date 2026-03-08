@@ -38,7 +38,7 @@ const Button = ({item,cost}) =>{
   };
   // Rendering the buttons
   return(
-    <button className="absolute z-15 left-1/2 -translate-x-1/2 overflow-hidden bottom-[50%] bg-[url('button.png')] h-[25%] w-[20%] bg-cover bg-no-repeat bg-center group" onClick={handleBuy}>
+    <button className="absolute z-15 left-1/2 -translate-x-1/2 overflow-hidden bottom-[50%] bg-[url('/Virtual-pet/button.png')] h-[25%] w-[20%] bg-cover bg-no-repeat bg-center group" onClick={handleBuy}>
       <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">
         {bought ? 'Bought!' : `${cost} C`}
       </span>

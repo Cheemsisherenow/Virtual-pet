@@ -2,10 +2,21 @@ import {React, useRef, useEffect, useMemo, useState} from 'react'
 import gsap from "gsap";
 import { inGameVariables, petAnimation, stats } from '../store';
 import { ANIMATION_DURATIONS } from '../constants';
+import Tutorial from './Tutorial';
+import Progression from './Progression';
 
 const Home = () => {
   // Setting the Zustand variables, hooks, and normal variables
     const {money, setMoney, hunger, mood,clean} = inGameVariables();
+    const [showTutorial, setShowTutorial] = useState(true);
+    const { isActive, next, skip, steps, currentStep, start } = Progression();
+    useEffect(() => {
+      
+      start([
+        { target: petRef },
+      ])
+    }, [])
+    const step = steps[currentStep]
     const setPlayAnimation = petAnimation((state) => state.setPlayAnimation);
     const petRef = useRef(null);
     const {setTotalMoneyEarned} = stats();
@@ -173,7 +184,14 @@ const Home = () => {
       <input placeholder="Chainchilla" className="absolute left-1/2 top-[10%] pt-5  -translate-x-1/2 w-[20vw] h-[10vh] bg-[url('/name.png')] bg-[length:100%_100%] text-center appearance-none border-none outline-none"/>
         <div className="absolute h-[10%] bottom-0"/>
         <img ref={petRef} src="/Virtual-pet/chainchillahappy.png" onClick={()=>(handleClick("/Virtual-pet/click1.gif"))} className="pixelated fixed h-[20%] bottom-0"></img>
+        
+        <div className="absolute bg-pink">
+          {isActive && <button onClick={next}>Next</button>}
+          {isActive && <button onClick={skip}>Skip</button>}
         </div>
+       
+        
+    </div>
   )
 }
 

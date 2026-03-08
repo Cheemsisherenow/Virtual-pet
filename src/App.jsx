@@ -1,4 +1,4 @@
-import {React, useState, useRef} from 'react'
+import {React, useState, useRef,useEffect} from 'react'
 import NavBar from './pages/NavBar'
 import Home from './pages/Home'
 import Shop from './pages/Shop.jsx'
@@ -9,9 +9,26 @@ import Checklist from './pages/Checklist.jsx'
 import {SCREENS} from "./constants"
 import Bar from './pages/Bar.jsx'
 import gsap from 'gsap'
+import Tutorial from './pages/Tutorial.jsx'
 import { useGSAP } from '@gsap/react'
+import Progression from './pages/Progression.jsx'
 export default function App() {
   const [currentBg, setCurrentBg] = useState('#c7bfb2');
+  const storageRef = useRef(null);
+  const { isActive, next, skip, steps, currentStep, add } = Progression();
+  useEffect(() => {
+      
+      add([
+        { target: storageRef },
+      ])
+    }, [])
+    useEffect(() => {
+      console.log("ref:", storageRef.current)
+      console.log("rect:", storageRef.current?.getBoundingClientRect())
+      console.log("step:", steps[currentStep])
+      console.log("isActive:", isActive)
+    }, [isActive, steps])
+  const step = steps[currentStep]
   const [screen, setScreen] = useState(SCREENS.HOME);
   const [loading, setLoading] = useState(false);
   const loadingRef = useRef(null);
@@ -81,7 +98,8 @@ export default function App() {
     <div className="app">
       <NavBar goTo={goTo} current={screen}/>
       <Bar background={currentBg}/>
-      <Storage/>
+      <Storage ref={storageRef}/>
+      {isActive && <Tutorial targetRef={step.target} />}
       {loading && <Loading ref={loadingRef}/>}
       {renderScreen()}
     </div>

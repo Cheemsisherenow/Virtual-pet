@@ -1,18 +1,20 @@
 import gsap from 'gsap/all';
-import {React,useRef, useState} from 'react'
+import {React, useRef, useEffect, useState, forwardRef} from 'react'
 import {useGSAP} from "@gsap/react";
 import { ITEMS } from '../constants';
 import { inGameVariables, itemAmount, petAnimation } from '../store';
 import clsx from "clsx";
+import Progression from './Progression';
 
-const Storage = () => {
+const Storage = forwardRef((props, ref) => {
     // Declaring hooks and variables
     const itemStore = itemAmount();
     const {hunger, setHunger, mood, setMood, clean, setClean} = inGameVariables();
     const playAnimation = petAnimation((state) => state.playAnimation);
     const [visible, setVisible] = useState(false);
     const [id, setId] = useState(1);
-    const storageRef = useRef(null);
+    const { isActive, next, skip, steps, currentStep, start } = Progression();
+
 
     // Function to handle what happens when a item is used
     const handleUse = () => {
@@ -82,21 +84,23 @@ const Storage = () => {
     
     // GSAP animations for the storage
     useGSAP(() => {
-        if (storageRef.current) {
-          gsap.set(storageRef.current, { x: "100%" });
+        if (currentStep > 1) {
+            gsap.to(ref.current, { x: "100%", duration: 0.5, ease: "power2.out" });
+        } else {
+            gsap.set(ref.current, { x: 0 });
         }
-      }, [storageRef]);
+      }, [ref, currentStep]);
     useGSAP(() => {
-        if (!storageRef.current) return;
+        if (!ref.current) return;
         if (visible){
-            gsap.to(storageRef.current, {
+            gsap.to(ref.current, {
                 x: 0,
                 duration: 0.5,
                 ease: "power2.out",
               });
         }
         else{
-            gsap.to(storageRef.current, {
+            gsap.to(ref.current, {
                 x: "100%",
                 duration: 0.5,
                 ease: "power2.out",
@@ -106,7 +110,7 @@ const Storage = () => {
 
 // What gets rendered
   return (
-    <div ref={storageRef} className="flex absolute bg-[url('/storage.png')] bg-[length:100%_100%] bg-no-repeat w-[30vw] h-[20vh] right-0" >
+    <div ref={ref} className="flex absolute bg-[url('/storage.png')] bg-[length:100%_100%] bg-no-repeat w-[30vw] h-[20vh] right-0" >
        <button className="absolute top-0 -translate-x-full text-8xl " onClick={() => setVisible(!visible)}> {!visible ? "<" : ">"} </button>
        <span className="absolute left-1/2 text-3xl -translate-x-1/2 top-[5%]">
             {getName(id)}
@@ -124,5 +128,6 @@ const Storage = () => {
     </div>
   )
 }
+)
 
 export default Storage
