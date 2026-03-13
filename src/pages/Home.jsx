@@ -1,15 +1,17 @@
 import {React, useRef, useEffect, useMemo, useState} from 'react'
 import gsap from "gsap";
-import { inGameVariables, petAnimation, stats } from '../store';
+import { inGameVariables, petAnimation, petState, stats } from '../store';
 import { ANIMATION_DURATIONS } from '../constants';
 import Tutorial from './Tutorial';
 import Progression from './Progression';
+
 
 const Home = () => {
   // Setting the Zustand variables, hooks, and normal variables
     const {money, setMoney, hunger, mood,clean} = inGameVariables();
     const [showTutorial, setShowTutorial] = useState(true);
     const { isActive1, next, skip1, steps, currentStep, update } = Progression();
+    const { setIsAnimating } = petState();
     const startRef = useRef(null);
     const petRef = useRef(null);
     useEffect(() => {
@@ -170,6 +172,7 @@ const Home = () => {
       const playAnimation = (Src) => {
 
         isPausedRef.current = true;
+        setIsAnimating(true);
         
         const animation = ANIMATION_DURATIONS.find((item) => item[Src] !== undefined);
         const duration = animation[Src];
@@ -194,6 +197,7 @@ const Home = () => {
         // Sets the pet back to its state before the animation
         setTimeout(() => {
           isPausedRef.current = false;
+          setIsAnimating(false);
           petRef.current.src = PET_IMAGES[getPetState];
           gsap.set(petRef.current, { scaleX: currentScale });
           if (savedTargetRef.current !== null) {

@@ -24,7 +24,7 @@ Screenshot of the start screen showing the game title and the button used to sta
 
 Once the game begins, the **Home Screen** is displayed. This is the main area where you can view your pet and interact with different systems.
 
-![Home Screen Placeholder](images/home-screen.png)
+![Home Screen](images/home-screen.png)
 
 **Image Description:**  
 Screenshot of the home screen displaying the pet and main navigation bar.
@@ -44,7 +44,7 @@ Main sections include:
 - **Checklist** – Track tasks and objectives
 - **Progression** – View game progress
 
-![Navigation Bar Placeholder](images/navbar.png)
+![Navigation Bar](images/nav-bar.png)
 
 **Image Description:**  
 Screenshot highlighting the navigation bar and labeled sections.
@@ -64,7 +64,7 @@ These bars may represent:
 
 Players must keep these stats stable to maintain the pet.
 
-![Stat Bar Placeholder](images/stat-bar.png)
+![Stat Bar](images/stat-bar.png)
 
 **Image Description:**  
 Screenshot of the stat bar UI showing multiple bars with different resource levels.
@@ -82,7 +82,7 @@ Steps to use the shop:
 3. Click an item to purchase it.
 4. The item will be added to your storage or applied immediately.
 
-![Shop Screen Placeholder](images/shop.png)
+![Shop Screen](images/shop-screen.png)
 
 **Image Description:**  
 Screenshot of the shop interface displaying purchasable items and their costs.
@@ -99,7 +99,7 @@ Steps:
 2. Select the damaged component.
 3. Use available resources to repair it.
 
-![Repair Screen Placeholder](images/repair.png)
+![Repair Screen](images/repair-screen.png)
 
 **Image Description:**  
 Screenshot of the repair interface showing repairable systems.
@@ -116,29 +116,10 @@ Players can:
 - Use stored items
 - Manage inventory
 
-![Storage Screen Placeholder](images/storage.png)
+![Storage](images/storage.png)
 
 **Image Description:**  
 Screenshot of the storage inventory UI showing item slots.
-
----
-
-# Checklist System
-
-The checklist tracks important tasks and goals.
-
-Examples may include:
-
-- Purchase an upgrade
-- Repair a component
-- Reach a stat threshold
-
-Completing checklist items helps guide progression.
-
-![Checklist Placeholder](images/checklist.png)
-
-**Image Description:**  
-Screenshot showing checklist items and completion indicators.
 
 ---
 
@@ -152,7 +133,7 @@ Progress may include:
 - Game milestones
 - Tutorial steps
 
-![Progression Placeholder](images/progression.png)
+![Progression](images/progression.png)
 
 **Image Description:**  
 Screenshot of the progression tracker showing completed and upcoming milestones.
@@ -170,7 +151,7 @@ The tutorial may include:
 - Repairing systems
 - Managing stats
 
-![Tutorial Placeholder](images/tutorial.png)
+![Tutorial](images/tutorial.png)
 
 **Image Description:**  
 Screenshot showing tutorial instructions overlaying the game interface.
@@ -181,7 +162,7 @@ Screenshot showing tutorial instructions overlaying the game interface.
 
 Some actions or transitions may briefly display a loading screen.
 
-![Loading Screen Placeholder](images/loading.png)
+![Loading Screen](images/loading.png)
 
 **Image Description:**  
 Screenshot of the loading screen displayed between game states.

@@ -2,7 +2,7 @@ import gsap from 'gsap/all';
 import {React, useRef, useEffect, useState, forwardRef} from 'react'
 import {useGSAP} from "@gsap/react";
 import { ITEMS } from '../constants';
-import { inGameVariables, itemAmount, petAnimation } from '../store';
+import { inGameVariables, itemAmount, petAnimation, petState } from '../store';
 import clsx from "clsx";
 import Progression from './Progression';
 
@@ -14,33 +14,35 @@ const Storage = forwardRef((props, ref) => {
     const [visible, setVisible] = useState(false);
     const [id, setId] = useState(1);
     const { isActive, next, skip, steps, currentStep, start } = Progression();
+    const { isAnimating } = petState();
 
 
     // Function to handle what happens when a item is used
     const handleUse = () => {
+        if (isAnimating) return;
         const item = ITEMS.find((i) => i.id === id);
-        console.log(itemStore[item.name])
+        console.log("item:" +itemStore[item.name])
         if (itemStore[item.name] > 0){
             if(item.name == "Lithium"){
-                (hunger <= 95 ? setHunger(hunger+5): itemStore[item.name]++)
+                setHunger(Math.min(hunger+5,100))
             }
             else if(item.name == "Battery"){
-                (hunger <= 85 ? setHunger(hunger+15): itemStore[item.name]++)
+                setHunger(Math.min(hunger+15,100))
             }
             else if(item.name == "Crystal"){
-                (mood <= 90 ? setMood(mood+5): itemStore[item.name]++)
+                setMood(Math.min(mood+5,100))
             }
             else if(item.name == "Orb"){
-                (mood <= 90 ? setMood(mood+25): itemStore[item.name]++)
+                setMood(Math.min(mood+25,100))
             }
             else if(item.name == "Battery"){
-                (mood <= 85 ? setMood(mood+15): itemStore[item.name]++)
+                setHunger(Math.min(hunger+15,100))
             }
             else if(item.name == "Air"){
-                (clean <= 85 ? setClean(clean+5): itemStore[item.name]++)
+                setClean(Math.min(clean+5,100))
             }
             else if(item.name == "Lubricant"){
-                (clean <= 85 ? setClean(clean+15): itemStore[item.name]++)
+                setClean(Math.min(clean+15,100))
             }
 
         

@@ -89,8 +89,8 @@ const Shop = () => {
   })
   return (
     <div className="bg-[#e5aa7a] w-screen h-screen mt-[7vh]">
-        <img src="/Virtual-pet/cat.png" style={{ bottom: `${counterHeight}px` }} className="pixelated bg-black absolute left-[18%] w-[22%]"/> {/*counterheight Keeps cat right above counter in event of window size change*/}
-        <img ref={counterRef} onLoad={measureCounter} src="/Virtual-pet/counter.png" className="pixelated bg-black scale-x-[-1] absolute bottom-0 w-full"/>
+        <img src="/Virtual-pet/cat.png" style={{ bottom: `${counterHeight}px` }} className="pixelated absolute left-[18%] w-[22%]"/> {/*counterheight Keeps cat right above counter in event of window size change*/}
+        <img ref={counterRef} onLoad={measureCounter} src="/Virtual-pet/counter.png" className="pixelated scale-x-[-1] absolute bottom-0 w-full"/>
         <div className="absolute w-[50%] h-[40%] grid grid-cols-2 grid-rows-3 gap-5 m-[5%] right-0"> {/**position of the shelves and items */}
           <div className="relative">
             {/* shelf items */}

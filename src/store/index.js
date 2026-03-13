@@ -45,7 +45,7 @@ export const stats = create((set)=>({
 export const itemAmount = create((set)=>({
     Lithium: 0,
     setLithium: Lithium => set({Lithium}),
-    Battery: 0,
+    Battery: 1,
     setBattery: Battery => set({Battery}),
     Crystal: 1,
     setCrystal: Crystal => set({Crystal}),
@@ -59,6 +59,10 @@ export const itemAmount = create((set)=>({
     getNumber: (name) => get()[name] //helper function to retrieve a value by item name string
 }))
 
+export const petState = create((set) => ({
+    isAnimating: false,
+    setIsAnimating: (val) => set({ isAnimating: val }),
+  }))
 //Persistent version:
 
 
