@@ -12,7 +12,7 @@ const Tutorial = ({ targetRef }) => {
         if (!el) return;
         const r = el.getBoundingClientRect();
         setRect({ x: r.left - PAD, y: r.top - PAD, w: r.width + PAD * 2, h: r.height + PAD * 2 });
-    }, [targetRef]); 
+    }, [targetRef, targetRef.current.x]); 
 
     useEffect(() => {
         const el = targetRef.current;
@@ -59,8 +59,8 @@ const Tutorial = ({ targetRef }) => {
     <div className="absolute pointer-events-auto bg-white rounded-xl shadow-xl p-4 break-words" style={{left: boxX, width: boxW, ...(showB ? { top: boxY } : { bottom: H - boxY })}}>
         <p> {steps[currentStep].text} </p>
         <div className="relative w-[60%] mt-1 flex justify-between items-center">
-            <button className="relative z-15 overflow-hidden bg-[url('/Virtual-pet/button.png')] h-[25%] w-[45%] bg-[length:100%_100%] bg-no-repeat bg-center group" onClick={next}>Next</button>
-            <button className="relative z-15 overflow-hidden bg-[url('/Virtual-pet/button.png')] h-[25%] w-[45%] bg-[length:100%_100%] bg-no-repeat bg-center group" onClick={skip}> Skip </button>
+            <button className="relative z-15 overflow-hidden bg-[url('/Virtual-pet/button.png')] h-[25%] w-[45%] bg-[length:100%_100%] bg-no-repeat bg-center" onClick={next}>Next</button>
+            <button className="relative z-15 overflow-hidden bg-[url('/Virtual-pet/button.png')] h-[25%] w-[45%] bg-[length:100%_100%] bg-no-repeat bg-center" onClick={skip}> Skip </button>
         </div>
     </div>
   </div>

@@ -8,12 +8,20 @@ import Progression from './Progression';
 
 const Home = () => {
   // Setting the Zustand variables, hooks, and normal variables
-    const {money, setMoney, hunger, mood,clean} = inGameVariables();
+    const {money, setMoney, hunger, mood, clean, health, setDead} = inGameVariables();
     const [showTutorial, setShowTutorial] = useState(true);
-    const { isActive1, next, skip1, steps, currentStep, update } = Progression();
+    const { isActive1, next, skip1, steps, currentStep, update, start1 } = Progression();
+    const isDead = () => inGameVariables.getState().dead;
     const { setIsAnimating } = petState();
+    const hasInitialized = useRef(false)
     const startRef = useRef(null);
     const petRef = useRef(null);
+    useEffect(()=>{
+      if(health <= 0){
+      setDead(true);
+      petRef.current.src="/Virtual-pet/dead.png";
+      gsap.killTweensOf(petRef.current);}
+    },[health])
     useEffect(() => {
               //updating the empty tutorial progression
       update([
@@ -66,7 +74,7 @@ const Home = () => {
     
     // Function to handle the user clicking the pet
     const handleClick = (Gif) => {
-      if(isPausedRef.current)return;
+      if(isPausedRef.current || isDead()) return;
       if (!petRef.current.src.endsWith(Gif)){ //checks if gif played already
         setMoney(money+1); //incrememnt money by 1
         playAnimation(Gif); //play animation
@@ -86,6 +94,7 @@ const Home = () => {
     };
     useEffect(() => {
       const check = () => {
+        if (isDead()) return;
         const { totalTimePlayed } = stats.getState();
         console.log(totalTimePlayed)
         if (!isActive1.current && totalTimePlayed != 0 && totalTimePlayed % 120 == 0) {
@@ -112,11 +121,22 @@ const Home = () => {
       check();
     }, [])
     useEffect(()=>{
-      movePet()
+      if (!hasInitialized.current) {
+        hasInitialized.current = true
+        return 
+      }
+      if(isActive1){
+        gsap.killTweensOf(petRef.current)
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        petRef.current.src = PET_IMAGES[petStateRef.current] 
+        gsap.set(petRef.current, { scaleX: 1 })               
+      }
+      else movePet();
     },[isActive1])
     const movePet = (targetX = null) => {
+      console.log("movePet called")
       const { isActive1 } = Progression.getState();
-      if (isPausedRef.current || isActive1) return;
+      if (isPausedRef.current || isActive1 || isDead()) return;
       const pet = petRef.current;
       // ills any animations from before for safety
       gsap.killTweensOf(pet);
@@ -152,6 +172,7 @@ const Home = () => {
           ease: "linear",
           onComplete: () => {
               // The waittime for chilla's next movement
+              console.log("petState:", petStateRef.current)
               petRef.current.src = PET_IMAGES[petStateRef.current]; 
               gsap.set(petRef.current, { scaleX: 1 });
               const waitTime = (duration * 1000) + Math.random() * 10000 + 5000;
@@ -170,6 +191,7 @@ const Home = () => {
       };
       // Function to play the animations from the items
       const playAnimation = (Src) => {
+        if(isDead()) return;
 
         isPausedRef.current = true;
         setIsAnimating(true);
@@ -217,7 +239,6 @@ const Home = () => {
 
   useEffect(() => {
     gsap.set(petRef.current, { x: (window.innerWidth - 50) / 2 })
-    movePet(); 
 
     //Cleanup when leaving screen
     return () => {
@@ -234,6 +255,11 @@ const Home = () => {
         {currentStep === 0 && (<div ref={startRef} className="absolute flex bg-white p-2 text-center items-center z-15 inset-0 m-auto rounded-xl text-3xl shadow-xl w-[25%] h-[20%]">
           Here is a quick tutorial to help you get started on the game!
         </div>)}
+        {!isActive1 && <button onClick={()=>{start1()}}className="absolute left-1 bottom-0 bg-[url('/Virtual-pet/tutorialButton.png')] h-[9%] w-[5%] bg-[length:100%_100%] bg-no-repeat bg-center transform transition-transform duration-300 ease-in-out hover:-translate-y-1 group">
+        <span className="absolute inset-0 flex items-center justify-center -translate-x-full group-hover:translate-x-full transition-transform duration-300 ease-in-out">
+          Tutorial
+        </span>
+        </button>}
        
         
     </div>

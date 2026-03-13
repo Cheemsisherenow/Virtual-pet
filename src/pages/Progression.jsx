@@ -46,7 +46,7 @@ const Progression = create((set, get) => ({
   
     skip: () => {
       const { isActive1, isActive2, isActive3, isActive4 } = get();
-      if (isActive1) set({ currentStep: 3 ,isActive1: false });
+      if (isActive1) set({ currentStep: 1 ,isActive1: false });
       else if (isActive2) set({isActive2: false })
       else if (isActive3) set({isActive3: false }) 
       else if (isActive4) set({isActive4: false }) },

@@ -9,7 +9,7 @@ The goal is to keep the pet's systems functioning and progress through tasks whi
 
 # Starting the Game
 
-1. Open the application in your browser.
+1. Open the application in your browser. Here is the link: [https://cheemsisherenow.github.io/Virtual-pet/](https://cheemsisherenow.github.io/Virtual-pet/)
 2. The **Start Page** will appear.
 3. Click the **Start Button** to begin the game.
 
@@ -182,13 +182,61 @@ Typical gameplay loop:
 
 ---
 
-# Technologies Used
+# Libraries and Frameworks Used
 
-- **React** – UI framework
-- **Vite** – Development environment
-- **GSAP** – Animations
-- **JavaScript / CSS** – Game logic and styling
+The project uses several external libraries to handle UI rendering, state management, styling, and development tooling.
 
----
+## Core Libraries
 
-# Project Structure (Simplified)
+### React
+JavaScript library used to build the user interface with reusable components.
+
+### React DOM
+Responsible for rendering React components to the browser's Document Object Model (DOM).
+
+### Zustand
+Lightweight state management library used to store and manage global game state such as stats, items, and progression.
+
+## Animation Libraries
+
+### GSAP (GreenSock Animation Platform)
+Animation library used for interactive animations within the game interface.
+
+### @gsap/react
+Provides React-specific helpers for integrating GSAP animations into React components.
+
+## Styling and UI
+
+### Tailwind CSS
+Utility-first CSS framework used to style the game's interface.
+
+### @tailwindcss/vite
+Enables Tailwind CSS integration with the Vite build tool.
+
+### clsx
+Utility library used for conditionally combining CSS class names.
+
+## Development Tools
+
+### Vite
+Fast frontend build tool used for running the development server and bundling the project.
+
+### @vitejs/plugin-react
+Plugin that adds React support to the Vite development environment.
+
+## Code Quality Tools
+
+### ESLint
+Static code analysis tool used to identify and fix problems in JavaScript code.
+
+Additional ESLint plugins used:
+
+- `eslint-plugin-react-hooks`
+- `eslint-plugin-react-refresh`
+
+## Type Definitions
+
+- `@types/react`
+- `@types/react-dom`
+
+These packages provide type definitions to improve development tooling and editor support.

@@ -8,7 +8,7 @@ const Checklist = () => {
     const {totalTimePlayed, totalMoneyEarned, totalExpense} = stats();
 
     //tutorial progression
-    const {update} = Progression();
+    const {update, isActive4, start4} = Progression();
     const playTimeRef = useRef(null);
     const totalExpenseRef = useRef(null);
     const totalMoneyRef = useRef(null);
@@ -35,7 +35,11 @@ const Checklist = () => {
                 </div>
             </div>
         </div>
-
+        {!isActive4 && <button onClick={()=>{start4()}}className="absolute left-1 bottom-0 bg-[url('/Virtual-pet/tutorialButton.png')] h-[9%] w-[5%] bg-[length:100%_100%] bg-no-repeat bg-center transform transition-transform duration-300 ease-in-out hover:-translate-y-1 group">
+        <span className="absolute inset-0 flex items-center justify-center -translate-x-full group-hover:translate-x-full transition-transform duration-300 ease-in-out">
+          Tutorial
+        </span>
+        </button>}
     </div>
   )
 }

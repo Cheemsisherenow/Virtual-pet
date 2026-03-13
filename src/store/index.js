@@ -9,6 +9,8 @@ export const useStart = create((set)=>({
 //Pet vitals store
 //these values reset on page refresh in this version of the game (add persist?)
 export const inGameVariables = create((set)=>({
+    dead: false,
+    setDead: (val) => set({dead: val}),
     money: 0,
     setMoney: money => set({money}),
     hunger: 100,

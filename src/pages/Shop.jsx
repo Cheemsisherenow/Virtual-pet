@@ -61,7 +61,7 @@ const Shop = () => {
   const orbRef = useRef(null);
   const airRef = useRef(null);
   const lubricantRef = useRef(null);
-  const {update} = Progression();
+  const {update, isActive2, start2} = Progression();
   const [counterHeight, setCounterHeight] = useState(0);
   useEffect(() => {
     //updating the empty tutorial progression
@@ -125,7 +125,11 @@ const Shop = () => {
             <Button item="Lubricant" cost={100}/>
           </div>
         </div>
-        
+        {!isActive2 && <button onClick={()=>{start2()}}className="absolute left-1 bottom-0 bg-[url('/Virtual-pet/tutorialButton.png')] h-[9%] w-[5%] bg-[length:100%_100%] bg-no-repeat bg-center transform transition-transform duration-300 ease-in-out hover:-translate-y-1 group">
+        <span className="absolute text-white inset-0 flex items-center justify-center -translate-x-full group-hover:translate-x-full transition-transform duration-300 ease-in-out">
+          Tutorial
+        </span>
+        </button>}
     </div>
   )
 }
