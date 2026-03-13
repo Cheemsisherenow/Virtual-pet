@@ -15,9 +15,9 @@ const Checklist = () => {
     useEffect(() =>{
         //updating the empty tutorial progression
         update([
-            { target: playTimeRef, position: 22, text: "This is the number of time (in seconds) you have spent on the game." },
-            { target: totalExpenseRef, position: 23, text: "This is the number of money you have spent on items for your Chainchilla." },
-            { target: totalMoneyRef, position: 24, text: "This is the number of money you have earned so far." },
+            { target: playTimeRef, position: 23, text: "This is the number of time (in seconds) you have spent on the game." },
+            { target: totalExpenseRef, position: 24, text: "This is the number of money you have spent on items for your Chainchilla." },
+            { target: totalMoneyRef, position: 25, text: "This is the number of money you have earned so far." },
         ])
     },[])
     

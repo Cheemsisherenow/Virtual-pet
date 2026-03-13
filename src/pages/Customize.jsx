@@ -14,8 +14,7 @@ const Customize = forwardRef((props, ref) => {
         setPetEvolv: petEvolv => set({petEvolv}),
         setPetSkin: petSkin => set({petSkin})
     }));*/
-    const {hunger, setHunger, mood, setMood, clean, setClean} = inGameVariables();
-    const {petEvolv, petSkin, setPetSkin} = pictures();
+    const {setPetSkin} = pictures();
     const [visible, setVisible] = useState(false);
     const [id, setId] = useState(1);
     const { isActive, next, skip, steps, currentStep, start } = Progression();
@@ -36,6 +35,7 @@ const Customize = forwardRef((props, ref) => {
             }
             else if(MODEL.name == "brown"){
                 setPetSkin("brown")
+                
             }
 
 
@@ -79,7 +79,7 @@ const Customize = forwardRef((props, ref) => {
     
     // GSAP animations for the storage
     useGSAP(() => {
-        if (currentStep == 2) {
+        if (currentStep == 3) {
             gsap.set(ref.current, { x: 0 });
         } else {
             gsap.set(ref.current, { x: "100%"});

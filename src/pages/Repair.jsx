@@ -60,9 +60,9 @@ const Repair = () => {
     update([
       //updating the empty tutorial progression
 
-      {target: poorRef, position: 19, text: "This is the poor repair, using this will restore 25% of your Chainchilla's health." },
-      {target: goodRef, position: 20, text: "This is the good repair, using this will restore 50% of your Chainchilla's health."},
-      {target: superRef, position: 21, text: "This is the super repair, using this will restore 100% of your Chainchilla's health."}
+      {target: poorRef, position: 20, text: "This is the poor repair, using this will restore 25% of your Chainchilla's health." },
+      {target: goodRef, position: 21, text: "This is the good repair, using this will restore 50% of your Chainchilla's health."},
+      {target: superRef, position: 22, text: "This is the super repair, using this will restore 100% of your Chainchilla's health."}
     ])
   },[])
   // What actually gets rendered

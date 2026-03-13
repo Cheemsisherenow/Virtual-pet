@@ -38,5 +38,6 @@ export const ANIMATION_DURATIONS = [
   {"/Virtual-pet/battery.gif": 1700},
   {"/Virtual-pet/lithium.gif": 1900},
   {"/Virtual-pet/air.gif": 2300},
-  {"/Virtual-pet/lubricant.gif": 2300}
+  {"/Virtual-pet/lubricant.gif": 2300},
+  {"/Virtual-pet/base/chainchillasleep.gif": 800}
 ];

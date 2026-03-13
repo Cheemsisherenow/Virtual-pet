@@ -67,12 +67,12 @@ const Shop = () => {
     //updating the empty tutorial progression
 
     update([
-      { target: lithiumRef, position: 13, text: "This is the lithium, using this will restore 5% of your Chainchilla's hunger." },
-      { target: batteryRef, position: 14, text: "This is the battery, using this will restore 20% of your Chainchilla's hunger." },
-      { target: crystalRef, position: 15, text: "This is the power crystal, using this will restore 10% of your Chainchilla's mood." },
-      { target: orbRef, position: 16, text: "This is the static orb, using this will restore 25% of your Chainchilla's mood." },
-      { target: airRef, position: 17, text: "This is the air canister, using this will restore 10% of your Chainchilla's cleaniness." },
-      { target: lubricantRef, position: 18, text: "This is the lubricant, using this will restore 25% of your Chainchilla's cleaniness." },
+      { target: lithiumRef, position: 14, text: "This is the lithium, using this will restore 5% of your Chainchilla's hunger." },
+      { target: batteryRef, position: 15, text: "This is the battery, using this will restore 20% of your Chainchilla's hunger." },
+      { target: crystalRef, position: 16, text: "This is the power crystal, using this will restore 10% of your Chainchilla's mood." },
+      { target: orbRef, position: 17, text: "This is the static orb, using this will restore 25% of your Chainchilla's mood." },
+      { target: airRef, position: 18, text: "This is the air canister, using this will restore 10% of your Chainchilla's cleaniness." },
+      { target: lubricantRef, position: 19, text: "This is the lubricant, using this will restore 25% of your Chainchilla's cleaniness." },
     ])
   }, [])
   //measure counter height (for cat positioning)

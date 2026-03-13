@@ -28,11 +28,11 @@ const NavBar = ({goTo, current}) => {
   useEffect(() => {
       
     update([
-      { target: navRef, position: 8, text: "This is your navigation bar, it will be how you can go to other locations and tabs." },
-      { target: homeRef, position: 9, text: "This is the home tab, click this to return back to your Chainchilla when you are in another tab!" },
-      { target: shopRef, position: 10, text: "This is the shop tab, this is where you can get the resources and materials to keep your Chainchilla healthy and alive!" },
-      { target: repairRef, position: 11, text: "This is the repair tab, the mechanic here will repair your Chainchilla's health and you need to go here to restore his health and give the Chainchilla a checkup when his health is low." },
-      { target: checklistRef, position: 12, text: "This is the checklist tab, where you can see the ingame stats." }
+      { target: navRef, position: 9, text: "This is your navigation bar, it will be how you can go to other locations and tabs." },
+      { target: homeRef, position: 10, text: "This is the home tab, click this to return back to your Chainchilla when you are in another tab!" },
+      { target: shopRef, position: 11, text: "This is the shop tab, this is where you can get the resources and materials to keep your Chainchilla healthy and alive!" },
+      { target: repairRef, position: 12, text: "This is the repair tab, the mechanic here will repair your Chainchilla's health and you need to go here to restore his health and give the Chainchilla a checkup when his health is low." },
+      { target: checklistRef, position: 13, text: "This is the checklist tab, where you can see the ingame stats." }
     ])
   }, [])
 

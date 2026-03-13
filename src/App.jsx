@@ -30,10 +30,12 @@ export default function App() {
   useEffect(() => {
       
     add(
-      Array.from({ length: 25 }, (_, i) => ({ target: null, position: i, text: null }))
+      Array.from({ length: 26 }, (_, i) => ({ target: null, position: i, text: null }))
     )
     update([
       { target: storageRef, position: 2, text: "Here is your storage, this is where all your items will be stored which you can use on the Chainchilla." },
+      { target: customizeRef, position: 3, text: "Here is your customization tab, this is where you can change your Chainchilla's skin." },
+
     ])
       start1()
     }, [])
@@ -97,15 +99,15 @@ export default function App() {
         console.log(currentStep)
         break;
       case SCREENS.SHOP:
-        setCurrentStep(13);
+        setCurrentStep(14);
         setCurrentBg('#e4ab79');
         break;
       case SCREENS.REPAIR:
-        setCurrentStep(19);
+        setCurrentStep(20);
         setCurrentBg('#d5ccc4');
         break;
       case SCREENS.CHECKLIST:
-        setCurrentStep(22);
+        setCurrentStep(23);
         setCurrentBg('#f8f2f3');
         break;
     }

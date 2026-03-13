@@ -17,11 +17,11 @@ const Bar = ({background}) => { //background color to show heart depletion
     useEffect(() => {
           //updating the empty tutorial progression
           update([
-            { target: healthRef, position: 3, text: "This is your Chainchilla's health, it will decrease by itself and decrease faster if you do not take good care of your Chainchilla, and once it reaches 0, your Chainchilla dies!" },
-            { target: moneyRef, position: 4, text: "This is the amount of Chain coins you have, the ingame currency you can earn by clicking the Chainchilla." },
-            { target: hungerRef, position: 5, text: "This is your Chainchilla's hunger bar, make sure to feed him from time to time or his health will start decreasing faster." },
-            { target: moodRef, position: 6, text: "This is your Chainchilla's mood bar! Make sure this bar is high so you get more money from the Chainchilla, and be careful, don't make the Chainchilla mad." },
-            { target: cleanRef, position: 7, text: "This is your Chainchilla's cleaniness bar, the lower it is, the slower your Chainchilla will move." },
+            { target: healthRef, position: 4, text: "This is your Chainchilla's health, it will decrease by itself and decrease faster if you do not take good care of your Chainchilla, and once it reaches 0, your Chainchilla dies!" },
+            { target: moneyRef, position: 5, text: "This is the amount of Chain coins you have, the ingame currency you can earn by clicking the Chainchilla." },
+            { target: hungerRef, position: 6, text: "This is your Chainchilla's hunger bar, make sure to feed him from time to time or his health will start decreasing faster." },
+            { target: moodRef, position: 7, text: "This is your Chainchilla's mood bar! Make sure this bar is high so you get more money from the Chainchilla, and be careful, don't make the Chainchilla mad." },
+            { target: cleanRef, position: 8, text: "This is your Chainchilla's cleaniness bar, the lower it is, the slower your Chainchilla will move." },
           ])
         }, [])
     // Intervals to decrease the differnt bars
@@ -43,8 +43,9 @@ const Bar = ({background}) => { //background color to show heart depletion
         //health interval
         const healthInterval = setInterval(()=>{
             if(!Progression.getState().isActive1){
+            const currentHunger = inGameVariables.getState().hunger;
             const currentHealth = inGameVariables.getState().health;
-            const newHealth = Math.max(0, currentHealth - 1); 
+            const newHealth = Math.max(0, currentHealth - (1-(currentHunger/100))); 
             setHealth(newHealth);}
         },5000) //loses 1 every 5 seconds
         const cleanInterval = setInterval(()=>{

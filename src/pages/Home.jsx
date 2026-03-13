@@ -1,48 +1,49 @@
-import {React, useRef, useEffect, useMemo, useState} from 'react'
+import {React, useRef, useEffect, useMemo} from 'react'
 import gsap from "gsap";
 import { inGameVariables, petAnimation, petState, pictures, stats } from '../store';
 import { ANIMATION_DURATIONS } from '../constants';
-import Tutorial from './Tutorial';
 import Progression from './Progression';
 
 
 const Home = () => {
   // Setting the Zustand variables, hooks, and normal variables
     const {money, setMoney, hunger, mood, clean, health, setDead} = inGameVariables();
-    const [showTutorial, setShowTutorial] = useState(true);
     const {petEvolv, petSkin} = pictures.getState()
-    const { isActive1, next, skip1, steps, currentStep, update, start1 } = Progression();
-    const isDead = () => inGameVariables.getState().dead;
+    const { isActive1,currentStep, update, start1 } = Progression();
     const { setIsAnimating } = petState();
     const hasInitialized = useRef(false)
     const startRef = useRef(null);
     const petRef = useRef(null);
-    useEffect(()=>{
-      console.log("health changed:", health)
-      if(health <= 0){
-        console.log("setting dead")
-        setDead(true);
-        petRef.current.src="/Virtual-pet/dead.png";
-        gsap.killTweensOf(petRef.current);
-        if (timeoutRef.current) clearTimeout(timeoutRef.current)
-        isPausedRef.current = true 
-      }
-    },[health])
-    useEffect(() => {
-              //updating the empty tutorial progression
-      update([
-        { target: startRef, position: 0, text: "" },
-        { target: petRef, position: 1, text: "Here is your pet Chainchilla! Make sure to take care of it and click him to earn money." },
-      ])
-    }, [])
-    //tutorial progression
-    const setPlayAnimation = petAnimation((state) => state.setPlayAnimation);
+    const isDead = () => inGameVariables.getState().dead;
+    const setPlayAnimation = petAnimation((state) => state.setPlayAnimation); //Sets the animation based on the state
     const {setTotalMoneyEarned} = stats();
     const isPausedRef = useRef(false);
     const petStateRef = useRef("happy");
     const savedTargetRef = useRef(null);
     const timeoutRef = useRef(null);
     const speedRef = useRef(75);
+
+    useEffect(()=>{
+      console.log("health changed:", health);
+      if(health <= 0){
+        console.log("setting dead");
+        setDead(true);
+        petRef.current.src="/Virtual-pet/dead.png";
+        gsap.killTweensOf(petRef.current);
+
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        isPausedRef.current = true;
+      }
+    },[health]);
+
+    useEffect(() => {
+              //updating the empty tutorial progression
+      update([
+        { target: startRef, position: 0, text: "" },
+        { target: petRef, position: 1, text: "Here is your pet Chainchilla! Make sure to take care of it and click him to earn money." },
+      ]);
+    }, []);
+
     // Changes the speed based on how clean the pet is
     useEffect(() => {
       speedRef.current = 15 + (60 * clean / 100);
@@ -68,25 +69,28 @@ const Home = () => {
 
     // Storage for the pet's moods and walking animations
     function getPetImage(evolution, pet, mood, state ) {
-      const ext = state === "walking" || mood === "click" ? ".gif" : ".png";
+      const ext = state === "walking" || mood === "click" || mood == "sleep" ? ".gif" : ".png";
       
       const walk = state === "walking" ? "walking" : "";
       console.log(`/Virtual-pet/${evolution}/${pet}${walk}${mood}${ext}`)
       return `/Virtual-pet/${evolution}/${pet}${walk}${mood}${ext}`;
     }
-  
     
     // Function to handle the user clicking the pet
+
     const handleClick = (Gif) => {
       if(isPausedRef.current || isDead()) return;
       if (!petRef.current.src.endsWith(Gif)){ //checks if gif played already
-        setMoney(money+1); //incrememnt money by 1
+        const currentMood = inGameVariables.getState().mood;
+        const currentMoney = inGameVariables.getState().money;
+        const roundedNum = parseFloat(parseFloat((currentMoney+(1*(currentMood/20)))).toFixed(2));
+        setMoney(roundedNum); //incrememnt money
         playAnimation(Gif); //play animation
         const currentEarned = stats.getState().totalMoneyEarned;
-        const newEarned = currentEarned + 1;
-        setTotalMoneyEarned(newEarned); //update overall stats 
+        setTotalMoneyEarned(currentEarned + roundedNum); //update overall stats 
       }
     }
+
     const sleepPet = (callback) => { //for pet sleeping
       const check = () => {
         const isMoving = gsap.getTweensOf(petRef.current).length > 0; //checks if pet is moving
@@ -96,6 +100,7 @@ const Home = () => {
       };
       check();
     };
+    //Checks if the total time has passed 40 seconds, then set the chainchilla to sleep if it is not doing a activity
     useEffect(() => {
       const check = () => {
         if (isDead()) return;
@@ -105,11 +110,12 @@ const Home = () => {
           sleepPet(() => {
             isPausedRef.current = true;
     
-            const sleepEnd = Date.now() + 20000;
+            const sleepEnd = Date.now() + 10000;
             const loopSleep = () => {
               if (Date.now() < sleepEnd) {
-                playAnimation("/Virtual-pet/zap.gif");
-                setTimeout(loopSleep, 2000);
+                const {petEvolv, petSkin} = pictures.getState()
+                petRef.current.src = getPetImage(petEvolv, petSkin, "sleep", "");
+                setTimeout(loopSleep, 800);
               } else {
                 isPausedRef.current = false;
                 movePet();
@@ -124,6 +130,7 @@ const Home = () => {
       };
       check();
     }, [])
+
     useEffect(()=>{
       if (!hasInitialized.current) {
         hasInitialized.current = true
@@ -138,6 +145,7 @@ const Home = () => {
       }
       else movePet();
     },[isActive1])
+
     const movePet = (targetX = null) => {
       console.log("movePet called")
       const { isActive1 } = Progression.getState();
@@ -229,7 +237,7 @@ const Home = () => {
           isPausedRef.current = false;
           setIsAnimating(false);
           const {petEvolv, petSkin} = pictures.getState()
-          petRef.current.src = getPetImage(petEvolv,petSkin,petStateRef.current,"walking")//PET_WALKING[petStateRef.current];
+          petRef.current.src = getPetImage(petEvolv,petSkin,petStateRef.current,"")//PET_WALKING[petStateRef.current];
           gsap.set(petRef.current, { scaleX: currentScale });
           if (savedTargetRef.current !== null) {
             movePet(savedTargetRef.current);
@@ -255,9 +263,7 @@ const Home = () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     }; 
   }, [])
-  useEffect(() => {
-    console.log("initial src:", petRef.current.src) // 👈 what is it on mount?
-  }, [])
+  
   useEffect(() => {
     if (!petRef.current || isDead()) return;
     const isMoving = gsap.getTweensOf(petRef.current).length > 0;

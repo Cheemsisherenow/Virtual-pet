@@ -36,9 +36,9 @@ const Progression = create((set, get) => ({
       console.log(steps)
       if (currentStep < steps.length - 1) set({ currentStep: currentStep + 1 });
       else  set({ isActive4: false });
-      if (currentStep == 12) set({ isActive1: false });
-      else if (currentStep == 18) set({ isActive2: false });
-      else if (currentStep == 22) set({ isActive3: false });
+      if (currentStep == 13) set({ isActive1: false });
+      else if (currentStep == 19) set({ isActive2: false });
+      else if (currentStep == 23) set({ isActive3: false });
       
     },
 
