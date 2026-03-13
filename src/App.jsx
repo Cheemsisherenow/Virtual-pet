@@ -14,9 +14,11 @@ import { useGSAP } from '@gsap/react'
 import Progression from './pages/Progression.jsx'
 import StartPage from './pages/StartPage.jsx'
 import { useStart } from './store/index.js'
+import Customize from './pages/Customize.jsx'
 export default function App() {
   const [currentBg, setCurrentBg] = useState('#c7bfb2');
   const storageRef = useRef(null);
+  const customizeRef = useRef(null);
   const navRef = useRef(null);
   const {startPage, setStartPage} = useStart();
   const { isActive1, isActive2, isActive3, isActive4, setCurrentStep, update, steps, currentStep, add, start1, start2, start3, start4} = Progression();
@@ -138,6 +140,7 @@ export default function App() {
           <NavBar goTo={goTo} current={screen}/>
           <Bar background={currentBg}/>
           <Storage ref={storageRef}/>
+          <Customize ref={customizeRef}/>
           {(isActive1 || isActive2 || isActive3 || isActive4) && step && step.target && <Tutorial targetRef={step.target} />}
         </>)}
       

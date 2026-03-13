@@ -50,7 +50,7 @@ const StartPage = ({goTo}) => {
 
             <div className="relative z-10 flex h-full items-center justify-center">
               <img src="/Virtual-pet/Start.png" className="absolute w-[65%] inset-x-0 top-1/8 mx-auto"/>
-              <button ref={startButtonRef} onClick={handleStart} className="absolute text-4xl inset-x-0 bottom-1/4 mx-auto ">
+              <button ref={startButtonRef} onClick={handleStart} className="absolute text-4xl inset-x-0 bottom-1/5 mx-auto bg-[url('/Virtual-pet/button.png')] w-[25%] h-[10%] bg-[length:100%_100%] bg-center ">
                   Press Start
               </button>
             </div>

@@ -1,6 +1,6 @@
 import {React, useRef, useEffect, useMemo, useState} from 'react'
 import gsap from "gsap";
-import { inGameVariables, petAnimation, petState, stats } from '../store';
+import { inGameVariables, petAnimation, petState, pictures, stats } from '../store';
 import { ANIMATION_DURATIONS } from '../constants';
 import Tutorial from './Tutorial';
 import Progression from './Progression';
@@ -10,6 +10,7 @@ const Home = () => {
   // Setting the Zustand variables, hooks, and normal variables
     const {money, setMoney, hunger, mood, clean, health, setDead} = inGameVariables();
     const [showTutorial, setShowTutorial] = useState(true);
+    const {petEvolv, petSkin} = pictures.getState()
     const { isActive1, next, skip1, steps, currentStep, update, start1 } = Progression();
     const isDead = () => inGameVariables.getState().dead;
     const { setIsAnimating } = petState();
@@ -17,10 +18,15 @@ const Home = () => {
     const startRef = useRef(null);
     const petRef = useRef(null);
     useEffect(()=>{
+      console.log("health changed:", health)
       if(health <= 0){
-      setDead(true);
-      petRef.current.src="/Virtual-pet/dead.png";
-      gsap.killTweensOf(petRef.current);}
+        console.log("setting dead")
+        setDead(true);
+        petRef.current.src="/Virtual-pet/dead.png";
+        gsap.killTweensOf(petRef.current);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        isPausedRef.current = true 
+      }
     },[health])
     useEffect(() => {
               //updating the empty tutorial progression
@@ -61,16 +67,14 @@ const Home = () => {
     }, [getPetState]);
 
     // Storage for the pet's moods and walking animations
-  const PET_IMAGES = {
-      happy: "/Virtual-pet/chainchillahappy.png",
-      unhappy: "/Virtual-pet/chainchillaunhappy.png",
-      angry: "/Virtual-pet/chainchillaangry.png",
-    };
-    const PET_WALKING = {
-      happy: "/Virtual-pet/chainchillawalkinghappy.gif",
-      unhappy: "/Virtual-pet/chainchillawalkingunhappy.gif",
-      angry: "/Virtual-pet/chainchillawalkingangry.gif",
-    };
+    function getPetImage(evolution, pet, mood, state ) {
+      const ext = state === "walking" || mood === "click" ? ".gif" : ".png";
+      
+      const walk = state === "walking" ? "walking" : "";
+      console.log(`/Virtual-pet/${evolution}/${pet}${walk}${mood}${ext}`)
+      return `/Virtual-pet/${evolution}/${pet}${walk}${mood}${ext}`;
+    }
+  
     
     // Function to handle the user clicking the pet
     const handleClick = (Gif) => {
@@ -128,7 +132,8 @@ const Home = () => {
       if(isActive1){
         gsap.killTweensOf(petRef.current)
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
-        petRef.current.src = PET_IMAGES[petStateRef.current] 
+        const {petEvolv, petSkin} = pictures.getState()
+        petRef.current.src = getPetImage(petEvolv, petSkin, petStateRef.current, "")
         gsap.set(petRef.current, { scaleX: 1 })               
       }
       else movePet();
@@ -162,7 +167,8 @@ const Home = () => {
       // GSAP animations
       gsap.to(petRef.current, {
           onStart: () => {
-              petRef.current.src = PET_WALKING[petStateRef.current];
+              const {petEvolv, petSkin} = pictures.getState()
+              petRef.current.src = getPetImage(petEvolv,petSkin,petStateRef.current,"walking")//PET_WALKING[petStateRef.current];
               if(targetX > currentX){
                   gsap.set(petRef.current, { scaleX: -1 });
               };
@@ -173,7 +179,8 @@ const Home = () => {
           onComplete: () => {
               // The waittime for chilla's next movement
               console.log("petState:", petStateRef.current)
-              petRef.current.src = PET_IMAGES[petStateRef.current]; 
+              const {petEvolv, petSkin} = pictures.getState()
+              petRef.current.src = getPetImage(petEvolv,petSkin,petStateRef.current,""); 
               gsap.set(petRef.current, { scaleX: 1 });
               const waitTime = (duration * 1000) + Math.random() * 10000 + 5000;
 
@@ -183,7 +190,8 @@ const Home = () => {
               }
               
               timeoutRef.current = setTimeout(() => {
-              petRef.current.src = PET_WALKING[petStateRef.current];
+                const {petEvolv, petSkin} = pictures.getState()
+                petRef.current.src = getPetImage(petEvolv,petSkin,petStateRef.current,"walking")//PET_WALKING[petStateRef.current];      
               movePet();
               }, waitTime);
           },
@@ -220,7 +228,8 @@ const Home = () => {
         setTimeout(() => {
           isPausedRef.current = false;
           setIsAnimating(false);
-          petRef.current.src = PET_IMAGES[getPetState];
+          const {petEvolv, petSkin} = pictures.getState()
+          petRef.current.src = getPetImage(petEvolv,petSkin,petStateRef.current,"walking")//PET_WALKING[petStateRef.current];
           gsap.set(petRef.current, { scaleX: currentScale });
           if (savedTargetRef.current !== null) {
             movePet(savedTargetRef.current);
@@ -246,12 +255,22 @@ const Home = () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     }; 
   }, [])
+  useEffect(() => {
+    console.log("initial src:", petRef.current.src) // 👈 what is it on mount?
+  }, [])
+  useEffect(() => {
+    if (!petRef.current || isDead()) return;
+    const isMoving = gsap.getTweensOf(petRef.current).length > 0;
+    if (!isMoving) {
+      petRef.current.src = getPetImage(petEvolv, petSkin, petStateRef.current, "")
+    }
+  }, [petSkin, petEvolv])
   
   return (
     <div id="home" className="bg-[url('/home.png')] mt-[7vh] min-h-[93vh] w-screen bg-[length:auto_100%] bg-bottom bg-no-repeat">
       <input placeholder="Chainchilla" className="absolute left-1/2 top-[10%] pt-5  -translate-x-1/2 w-[20vw] h-[10vh] bg-[url('/name.png')] bg-[length:100%_100%] text-center appearance-none border-none outline-none"/>
         <div className="absolute h-[10%] bottom-0"/>
-        <img ref={petRef} src="/Virtual-pet/chainchillahappy.png" onClick={()=>(handleClick("/Virtual-pet/click1.gif"))} className="pixelated fixed h-[20%] bottom-0"></img>
+        <img ref={petRef} src="/Virtual-pet/base/chainchillahappy.png" onClick={()=>(handleClick(getPetImage(petEvolv, petSkin, "click", "" )))} className="pixelated fixed h-[20%] bottom-0"></img>
         {currentStep === 0 && (<div ref={startRef} className="absolute flex bg-white p-2 text-center items-center z-15 inset-0 m-auto rounded-xl text-3xl shadow-xl w-[25%] h-[20%]">
           Here is a quick tutorial to help you get started on the game!
         </div>)}

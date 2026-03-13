@@ -19,7 +19,7 @@ export const inGameVariables = create((set)=>({
     setMood: mood => set({mood}),
     clean: 100,
     setClean: clean => set({clean}),
-    health: 100,
+    health: 20,
     setHealth: health => set({health})
 }))
 
@@ -45,7 +45,7 @@ export const stats = create((set)=>({
 //Inventory store
 //Tracks quantities of specific items and resources
 export const itemAmount = create((set)=>({
-    Lithium: 0,
+    Lithium: 1,
     setLithium: Lithium => set({Lithium}),
     Battery: 1,
     setBattery: Battery => set({Battery}),
@@ -53,9 +53,9 @@ export const itemAmount = create((set)=>({
     setCrystal: Crystal => set({Crystal}),
     Orb: 1,
     setOrb: Orb => set({Orb}),
-    Air: 0,
+    Air: 1,
     setAir: Air => set({Air}),
-    Lubricant: 0,
+    Lubricant: 1,
     setLubricant: Lubricant => set({Lubricant}),
 
     getNumber: (name) => get()[name] //helper function to retrieve a value by item name string
@@ -65,6 +65,12 @@ export const petState = create((set) => ({
     isAnimating: false,
     setIsAnimating: (val) => set({ isAnimating: val }),
   }))
+export const pictures = create((set)=>({
+    petEvolv: "base",
+    petSkin: "chainchilla",
+    setPetEvolv: petEvolv => set({petEvolv}),
+    setPetSkin: petSkin => set({petSkin})
+}));
 //Persistent version:
 
 
