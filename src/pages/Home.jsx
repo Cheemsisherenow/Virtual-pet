@@ -11,15 +11,16 @@ const Home = () => {
     const [showTutorial, setShowTutorial] = useState(true);
     const { isActive1, next, skip1, steps, currentStep, update } = Progression();
     const startRef = useRef(null);
+    const petRef = useRef(null);
     useEffect(() => {
-      
+              //updating the empty tutorial progression
       update([
         { target: startRef, position: 0, text: "" },
         { target: petRef, position: 1, text: "Here is your pet Chainchilla! Make sure to take care of it and click him to earn money." },
       ])
     }, [])
+    //tutorial progression
     const setPlayAnimation = petAnimation((state) => state.setPlayAnimation);
-    const petRef = useRef(null);
     const {setTotalMoneyEarned} = stats();
     const isPausedRef = useRef(false);
     const petStateRef = useRef("happy");
@@ -34,14 +35,14 @@ const Home = () => {
     // Changes the mood and state of the pet
     const getPetState = useMemo(() => {
       console.log(mood)
-      if (hunger < 20 || mood < 20){ 
+      if (hunger < 20 || mood < 20){ //make chinchilla angry when hunger or mood less than 20
         console.log("returning angry") 
         return "angry"
       };
-      if (hunger < 50 || mood < 50){ 
+      if (hunger < 50 || mood < 50){  //When chilla mood or hunger less than 50 and greater than 20 make chilla unhappy
       return "unhappy"
       };
-      return "happy";
+      return "happy"; //when hunger or mood greater than 50, make chilla happy
     },[hunger, mood]);
 
     // Changes what the petRef is pointing to, this is used for the movePet function since normal useState does not get updated
@@ -63,32 +64,69 @@ const Home = () => {
     
     // Function to handle the user clicking the pet
     const handleClick = (Gif) => {
-      if (!petRef.current.src.endsWith(Gif)){
-        setMoney(money+1);
-        playAnimation(Gif);
+      if(isPausedRef.current)return;
+      if (!petRef.current.src.endsWith(Gif)){ //checks if gif played already
+        setMoney(money+1); //incrememnt money by 1
+        playAnimation(Gif); //play animation
         const currentEarned = stats.getState().totalMoneyEarned;
         const newEarned = currentEarned + 1;
-        setTotalMoneyEarned(newEarned);
+        setTotalMoneyEarned(newEarned); //update overall stats 
       }
     }
+    const sleepPet = (callback) => { //for pet sleeping
+      const check = () => {
+        const isMoving = gsap.getTweensOf(petRef.current).length > 0; //checks if pet is moving
+        const isPaused = isPausedRef.current; //checks if pet is paused (paused happens when pet is clicked)
+        if (!isMoving && !isPaused) callback(); //callback if pet is not paused or moving
+        else setTimeout(check, 500); 
+      };
+      check();
+    };
+    useEffect(() => {
+      const check = () => {
+        const { totalTimePlayed } = stats.getState();
+        console.log(totalTimePlayed)
+        if (!isActive1.current && totalTimePlayed != 0 && totalTimePlayed % 120 == 0) {
+          sleepPet(() => {
+            isPausedRef.current = true;
+    
+            const sleepEnd = Date.now() + 20000;
+            const loopSleep = () => {
+              if (Date.now() < sleepEnd) {
+                playAnimation("/Virtual-pet/zap.gif");
+                setTimeout(loopSleep, 2000);
+              } else {
+                isPausedRef.current = false;
+                movePet();
+                setTimeout(check, 1000);
+              }
+            };
+            loopSleep();
+          });
+        } else {
+          setTimeout(check, 1000);
+        }
+      };
+      check();
+    }, [])
     useEffect(()=>{
       movePet()
     },[isActive1])
     const movePet = (targetX = null) => {
-      console.log(isActive1)
+      const { isActive1 } = Progression.getState();
       if (isPausedRef.current || isActive1) return;
       const pet = petRef.current;
       // ills any animations from before for safety
       gsap.killTweensOf(pet);
 
-      // Calculate max X/Y Pochita can move based on window size minus pet size
+      // Calculate max X/Y chilla can move based on window size minus pet size
       const maxX = window.innerWidth - 50; 
 
-      //Finds the current location of Pochita
+      //Finds the current location of chilla
       const currentX = gsap.getProperty(pet, "x");
       // Debugging
       console.log("X" + currentX);
-      // Selects a random location on the screen for Pochita to move
+      // Selects a random location on the screen for chilla to move
       targetX = targetX !== null ? targetX : Math.random() * maxX;
 
       // Calculates the distance
@@ -111,7 +149,7 @@ const Home = () => {
           duration: duration,
           ease: "linear",
           onComplete: () => {
-              // The waittime for Pochita's next movement
+              // The waittime for chilla's next movement
               petRef.current.src = PET_IMAGES[petStateRef.current]; 
               gsap.set(petRef.current, { scaleX: 1 });
               const waitTime = (duration * 1000) + Math.random() * 10000 + 5000;

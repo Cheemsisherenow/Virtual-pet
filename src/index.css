@@ -1,40 +1,64 @@
+/* Tailwind css base */
 @import "tailwindcss";
+/* Custon asset loading
+Minecraft font for pixelated game
+*/
 @font-face {
   font-family: 'Minecraft';
   src: url('/fonts/Minecraft.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: swap; /*ensures text is visible while the font loads*/
 } 
+
+/* Gloabl base style
+*/
 body {
   overflow: hidden;
-  font-family: 'Minecraft', sans-serif;
+  font-family: 'Minecraft', sans-serif; /*fonts*/
 }
 
+/*animations 
+This is for scrolling background effect on start screen
+*/
+@keyframes moveDiagonal {
+  from { background-position: 0 0; }
+  to { background-position: 220px 160px; }
+}
+/* Component layer:
+custom ultility classes and component specific overrides
+*/
 @layer components {
-
+/* Main naviation header */
   header {
+    /* Fixed at the top, neutral color, and sits above all other game elements (z-50) */
     @apply  w-screen fixed top-0 left-0 bg-neutral-200 z-50 flex items-center justify-center  min-h-[7vh];
     nav {
       @apply container mx-auto flex items-center;
       ul{
         @apply flex justify-between w-full ;
       }
+      /* Slight lift effect when hovering over buttons */
       button {
         @apply transform transition-transform duration-300 ease-in-out hover:-translate-y-1;
       }
     }
   }
+  /* Pixel are optimization
+  makes sure pixel art images are not blurry when scaled up
+  */
   .pixelated {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
 }
-  #home{
+/* section backgrounds */
+  #home{ 
     @apply bg-[url('/home.png')];
   }
   #tutorial{
     button{
+      /* consisten hover animation for interactive tutorial elements */
       @apply transform transition-transform duration-300 ease-in-out hover:-translate-y-1;
     }
   }

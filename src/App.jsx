@@ -7,7 +7,7 @@ import Loading from './pages/Loading.jsx'
 import Storage from './pages/Storage.jsx'
 import Checklist from './pages/Checklist.jsx'
 import {SCREENS} from "./constants"
-import Bar from './pages/Bar.jsx'
+import Bar from './pages/StatBar.jsx'
 import gsap from 'gsap'
 import Tutorial from './pages/Tutorial.jsx'
 import { useGSAP } from '@gsap/react'
@@ -20,9 +20,11 @@ export default function App() {
   const navRef = useRef(null);
   const {startPage, setStartPage} = useStart();
   const { isActive1, isActive2, isActive3, isActive4, setCurrentStep, update, steps, currentStep, add, start1, start2, start3, start4} = Progression();
+  const hasStartedHome = useRef(false)
   const hasStartedShop = useRef(false)
   const hasStartedRepair = useRef(false)
   const hasStartedCheckList = useRef(false)
+  
   useEffect(() => {
       
     add(
@@ -31,7 +33,7 @@ export default function App() {
     update([
       { target: storageRef, position: 2, text: "Here is your storage, this is where all your items will be stored which you can use on the Chainchilla." },
     ])
-      start1();
+      start1()
     }, [])
     
   const step = steps[currentStep]
@@ -39,6 +41,9 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const loadingRef = useRef(null);
   useEffect(() => {
+    if (screen === SCREENS.HOME && !hasStartedHome.current) {
+      hasStartedHome.current = true 
+    }
     if (screen === SCREENS.SHOP && !hasStartedShop.current) {
       hasStartedShop.current = true 
       start2()
@@ -85,7 +90,9 @@ export default function App() {
         break;
       case SCREENS.HOME:
         setCurrentBg('#c7bfb2');
-        setCurrentStep(0);
+        if (!hasStartedHome.current) setCurrentStep(0);
+        else setCurrentStep(1);
+        console.log(currentStep)
         break;
       case SCREENS.SHOP:
         setCurrentStep(13);

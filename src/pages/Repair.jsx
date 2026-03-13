@@ -1,4 +1,4 @@
-
+//evan
 import {React, useState,useEffect, useRef} from 'react'
 import { inGameVariables} from '../store';
 import { REPAIR } from '../constants';
@@ -17,28 +17,29 @@ const Button = ({item,cost}) =>{
 
   // Function to handle what happens if the user buys the item (not enough money, etc.)
   const handleBuy = () => {
-    if(money >= Item.cost){
-      setBought(true);
-      setMoney(money-cost);
-      const newHealth = Math.min(100, health + Item.heal);
+    if(money >= Item.cost){ //checks if user has enough money
+      setBought(true); 
+      setMoney(money-cost); //spend money
+      const newHealth = Math.min(100, health + Item.heal); //heal health back to at most 100
       setHealth(newHealth);
 
-      const currentExpense = stats.getState().totalExpense;
+      const currentExpense = stats.getState().totalExpense; //amount of money spent total for overall stats
       const newExpense = currentExpense + cost;
       setTotalExpense(newExpense);
       
   }
-  else{
+  else{ //if user is broke uh oh
     setDisplay("No Money!");
   }
 
     
-    setTimeout(() => {
+    setTimeout(() => { //on hover suggest user to buy
       setBought(false);
       setDisplay("Buy?");
     }, 2000);
   };
   return(
+    //repair module button positioning
     <button className="absolute z-15 overflow-hidden bottom-[10%] bg-[url('/Virtual-pet/button.png')] bg-[length:100%_100%] h-[10%] w-[35%] bg-no-repeat bg-center group" onClick={handleBuy}>
       <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">
         {bought ? 'Bought!' : `${cost} C`}
@@ -50,12 +51,15 @@ const Button = ({item,cost}) =>{
   )
 }
 const Repair = () => {
+  //tutorial references
   const {update} = Progression();
   const poorRef = useRef(null);
   const goodRef = useRef(null);
   const superRef = useRef(null);
   useEffect(()=>{
     update([
+      //updating the empty tutorial progression
+
       {target: poorRef, position: 19, text: "This is the poor repair, using this will restore 25% of your Chainchilla's health." },
       {target: goodRef, position: 20, text: "This is the good repair, using this will restore 50% of your Chainchilla's health."},
       {target: superRef, position: 21, text: "This is the super repair, using this will restore 100% of your Chainchilla's health."}
@@ -64,6 +68,7 @@ const Repair = () => {
   // What actually gets rendered
   return (
     <div className="w-screen bg-[#d5ccc4] h-screen mt-[7vh]">
+      {/* repair module positioning */}
       <img src="/Virtual-pet/repair.png" className="absolute w-full h-[50%] bottom-0"/>
       <img src="/Virtual-pet/bird.png" className="absolute left-[10%] h-[43%]"/>
       <div className="absolute flex w-[50%] bottom-[50%] justify-around right-0">

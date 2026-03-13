@@ -1,18 +1,21 @@
+//import libraries
 import {React, useEffect, useRef} from 'react'
-import {inGameVariables} from "../store/"
+import {inGameVariables} from "../store"
 import Progression from './Progression';
 
-const Bar = ({background}) => {
+
+const Bar = ({background}) => { //background color to show heart depletion
     // Zustand global variables 
     const {money, hunger, setHunger, mood, setMood, clean, setClean, health, setHealth} = inGameVariables();
+    //tutorial progressions; ref point to div
     const healthRef = useRef(null);
     const moneyRef = useRef(null);
     const hungerRef = useRef(null);
     const moodRef = useRef(null);
     const cleanRef = useRef(null);
-    const {update, isActive1} = Progression();
+    const {update, isActive1} = Progression(); 
     useEffect(() => {
-          
+          //updating the empty tutorial progression
           update([
             { target: healthRef, position: 3, text: "This is your Chainchilla's health, it will decrease by itself and decrease faster if you do not take good care of your Chainchilla, and once it reaches 0, your Chainchilla dies!" },
             { target: moneyRef, position: 4, text: "This is the amount of Chain coins you have, the ingame currency you can earn by clicking the Chainchilla." },
@@ -23,30 +26,33 @@ const Bar = ({background}) => {
         }, [])
     // Intervals to decrease the differnt bars
     useEffect(() => {
+        //hunger interval
         const hungerInterval = setInterval(() => {
-            if(!Progression.getState().isActive1){
+            if(!Progression.getState().isActive1){ //if completed tutorial
             const currentHunger = inGameVariables.getState().hunger;
-            const newHunger = Math.max(0, currentHunger - 1);
-            setHunger(newHunger);}
-        }, 5000);
+            const newHunger = Math.max(0, currentHunger - 1); //make sure bar doesn't fall below 0
+            setHunger(newHunger);} //update
+        }, 5000); //loses 1 every 5 seconds
+        //mood interval
         const moodInterval = setInterval(()=>{
             if(!Progression.getState().isActive1){
             const currentMood = inGameVariables.getState().mood;
             const newMood = Math.max(0, currentMood - 1);
             setMood(newMood);}
-        },5000)
+        },5000) //loses 1 every 5 seconds
+        //health interval
         const healthInterval = setInterval(()=>{
             if(!Progression.getState().isActive1){
             const currentHealth = inGameVariables.getState().health;
-            const newHealth = Math.max(0, currentHealth - 1);
+            const newHealth = Math.max(0, currentHealth - 1); 
             setHealth(newHealth);}
-        },5000)
+        },5000) //loses 1 every 5 seconds
         const cleanInterval = setInterval(()=>{
             if(!Progression.getState().isActive1){
             const currentClean = inGameVariables.getState().clean;
             const newClean = Math.max(0, currentClean - 1);
             setClean(newClean);}
-        },10000)
+        },10000) //clenliness drop by 1 every 10 seconds
 
         // Cleanup
         return () => {
@@ -58,11 +64,13 @@ const Bar = ({background}) => {
       }, []);
       // The rendering component
   return (
+    //html
+    
     <div className="fixed pointer-events-none flex flex-col justify-around h-[40%] mt-[1%] w-full z-50">
         <div className="flex items-center w-[20%] h-[30%] gap-2" style={{ "--level": `${health}%` }}>
             <div ref={healthRef} className="relative w-[30%] h-full flex items-center top-0">
-                <img src="/Virtual-pet/heartframe.png" className="absolute w-full z-10"/>
-                <img src="/Virtual-pet/heart.png" className="absolute w-full "/>
+                <img src="/Virtual-pet/heartframe.png" className="absolute w-full z-10"/> {/* outline of heart */}
+                <img src="/Virtual-pet/heart.png" className="absolute w-full "/> {/*red part of heart (goes down) */}
                 <div className="absolute inset-0 z-5 transition-transform duration-300 ease-linear" style={{ backgroundColor: background, height: `calc(100% - var(--level))`}}/>
             </div>
                 

@@ -1,8 +1,13 @@
 import { create } from "zustand";
+
+//UI state store: manages the navigation state
 export const useStart = create((set)=>({
-    startPage: true,
-    setStartPage: startPage => set({startPage})
+    startPage: true, //Toggle between the start screen and main game
+    setStartPage: startPage => set({startPage}) //setter function for startPage
 }))
+
+//Pet vitals store
+//these values reset on page refresh in this version of the game (add persist?)
 export const inGameVariables = create((set)=>({
     money: 0,
     setMoney: money => set({money}),
@@ -15,11 +20,17 @@ export const inGameVariables = create((set)=>({
     health: 100,
     setHealth: health => set({health})
 }))
+
+//animation and refs store
+//stores functions or references for the pet's visual state
 export const petAnimation = create((set) => ({
-    playAnimation: null,
+    playAnimation: null, //holds a function reference to trigger an animation
     setPlayAnimation: (fn) => set({ playAnimation: fn }),
-    Ref: null,
+    Ref: null, //reference to the DOM/Three.js object for direct manipulation
   }));
+
+//Game stats store
+//Tracks progress and achievements
 export const stats = create((set)=>({
     totalTimePlayed: 0,
     setTimePlayed: totalTimePlayed => set({totalTimePlayed}),
@@ -29,6 +40,8 @@ export const stats = create((set)=>({
     setTotalMoneyEarned: totalMoneyEarned => set({totalMoneyEarned})
 }));
 
+//Inventory store
+//Tracks quantities of specific items and resources
 export const itemAmount = create((set)=>({
     Lithium: 0,
     setLithium: Lithium => set({Lithium}),
@@ -43,8 +56,13 @@ export const itemAmount = create((set)=>({
     Lubricant: 0,
     setLubricant: Lubricant => set({Lubricant}),
 
-    getNumber: (name) => get()[name]
+    getNumber: (name) => get()[name] //helper function to retrieve a value by item name string
 }))
+
+//Persistent version:
+
+
+
 /*import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
 

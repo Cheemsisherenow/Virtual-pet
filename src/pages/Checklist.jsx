@@ -1,3 +1,4 @@
+//overall states evan
 import {React, useEffect, useRef} from 'react'
 import { stats } from '../store'
 import Progression from './Progression';
@@ -5,11 +6,14 @@ import Progression from './Progression';
 const Checklist = () => {
     // Zustand global variables
     const {totalTimePlayed, totalMoneyEarned, totalExpense} = stats();
+
+    //tutorial progression
     const {update} = Progression();
     const playTimeRef = useRef(null);
     const totalExpenseRef = useRef(null);
     const totalMoneyRef = useRef(null);
     useEffect(() =>{
+        //updating the empty tutorial progression
         update([
             { target: playTimeRef, position: 22, text: "This is the number of time (in seconds) you have spent on the game." },
             { target: totalExpenseRef, position: 23, text: "This is the number of money you have spent on items for your Chainchilla." },
@@ -21,8 +25,8 @@ const Checklist = () => {
   return (
     <div className="bg-[#f8f2f3] flex items-center justify-center mt-[7vh] min-h-[93vh] w-screen">
         <div className="relative w-[60vw] h-[80vh]">
-            <img src="/Virtual-pet/clipboard.png" className="absolute h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></img>
-            <div className="absolute rotate-8  h-3/4 flex gap-[5%] flex-col top-1/4 left-1/2 -translate-x-5/10 items-center w-1/2 origin-center">
+            <img src="/Virtual-pet/clipboard.png" className="absolute h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></img> {/**set clipboard position wiht translate */}
+            <div className="absolute rotate-8  h-3/4 flex gap-[5%] flex-col top-1/4 left-1/2 -translate-x-5/10 items-center w-1/2 origin-center"> {/**set text position */}
                 <span className="text-4xl"> Stats/Checklist</span>
                 <div className="flex flex-col justify-around w-3/5 h-3/4">
                     <span ref={playTimeRef} className="text-xl"> Total Playtime: {totalTimePlayed} S</span>

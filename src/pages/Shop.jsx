@@ -1,4 +1,5 @@
 
+//evan
 import {React, useState, useRef, useEffect} from 'react'
 import { inGameVariables, itemAmount } from '../store';
 import { ITEMS } from '../constants';
@@ -27,7 +28,7 @@ const Button = ({item,cost}) =>{
       setTotalExpense(newExpense);
       
   }
-  else{
+  else{ //if user is broke womp womp
     setDisplay("No Money!");
   }
 
@@ -41,10 +42,10 @@ const Button = ({item,cost}) =>{
   return(
     <button className="absolute z-15 left-1/2 -translate-x-1/2 overflow-hidden bottom-[50%] bg-[url('/Virtual-pet/button.png')] h-[25%] w-[20%] bg-cover bg-no-repeat bg-center group" onClick={handleBuy}>
       <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">
-        {bought ? 'Bought!' : `${cost} C`}
+        {bought ? 'Bought!' : `${cost} C`} {/**item already bought */}
       </span>
       <span className="absolute text-sm inset-0 flex items-center justify-center transition-all duration-300 translate-y-full group-hover:translate-y-0 group-hover:opacity-100">
-        {bought ? 'Bought!' : `${display}`}
+        {bought ? 'Bought!' : `${display}`} {/**item already bought */}
       </span>
     </button>
   )
@@ -52,6 +53,7 @@ const Button = ({item,cost}) =>{
 
 // What actually gets rendered, the items on the shelves
 const Shop = () => {
+  //tutorial references
   const counterRef = useRef(null);
   const lithiumRef = useRef(null);
   const batteryRef = useRef(null);
@@ -62,7 +64,8 @@ const Shop = () => {
   const {update} = Progression();
   const [counterHeight, setCounterHeight] = useState(0);
   useEffect(() => {
-        
+    //updating the empty tutorial progression
+
     update([
       { target: lithiumRef, position: 13, text: "This is the lithium, using this will restore 5% of your Chainchilla's hunger." },
       { target: batteryRef, position: 14, text: "This is the battery, using this will restore 20% of your Chainchilla's hunger." },
@@ -72,22 +75,25 @@ const Shop = () => {
       { target: lubricantRef, position: 18, text: "This is the lubricant, using this will restore 25% of your Chainchilla's cleaniness." },
     ])
   }, [])
+  //measure counter height (for cat positioning)
   const measureCounter = () => {
     if (counterRef.current) {
       const h = counterRef.current.getBoundingClientRect().height;
       setCounterHeight(h);
     }
   };
+  //when window resized, remeasure how high the counter is
   useEffect(()=>{
     window.addEventListener("resize", measureCounter);
     return () => {window.removeEventListener("resize", measureCounter);}
   })
   return (
     <div className="bg-[#e5aa7a] w-screen h-screen mt-[7vh]">
-        <img src="/Virtual-pet/cat.png" style={{ bottom: `${counterHeight}px` }} className="pixelated bg-black absolute left-[18%] w-[22%]"/>
+        <img src="/Virtual-pet/cat.png" style={{ bottom: `${counterHeight}px` }} className="pixelated bg-black absolute left-[18%] w-[22%]"/> {/*counterheight Keeps cat right above counter in event of window size change*/}
         <img ref={counterRef} onLoad={measureCounter} src="/Virtual-pet/counter.png" className="pixelated bg-black scale-x-[-1] absolute bottom-0 w-full"/>
-        <div className="absolute w-[50%] h-[40%] grid grid-cols-2 grid-rows-3 gap-5 m-[5%] right-0">
+        <div className="absolute w-[50%] h-[40%] grid grid-cols-2 grid-rows-3 gap-5 m-[5%] right-0"> {/**position of the shelves and items */}
           <div className="relative">
+            {/* shelf items */}
           <img ref={lithiumRef} src="/Virtual-pet/lithium.png" className="pixelated absolute left-1/2 bottom-[75%] -translate-x-[50%] w-[25%]"/>
             <img src="/Virtual-pet/display.png" className="pixelated w-full"/>
             <Button item="Lithium" cost={5}/>
